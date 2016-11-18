@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Matching Game</title>
+        <style>
+            img { position: absolute;
+                height:100px;width:100px}
+            div { position: absolute;
+            width:500px; height:500px}
+            #rightSide { left: 500px;
+            border-left: 1px solid black }
+        </style>
+    </head>
+    <body onload="generateFaces()">
+        <h2>Matching Game</h2>
+        <h6>Click on the extra smiling face on the left.</h6>
+        <div id="leftSide"></div>
+        <div id="rightSide"></div>
+        <script>
+            var numberOfFaces = 5;
+            function generateFaces()
+            {
+                var i;
+                var theNodeLeft,theNodeRight;
+                
+                var theLeftSide = document.getElementById("leftSide");
+                var top,left;
+                for(i=0;i<numberOfFaces;i++)
+                {
+                    var imgs = document.createElement("img");
+                    imgs.src="smile.png";
+                    top = Math.random()*400;
+                    left = Math.random()*400;
+                    imgs.style.top=top+"px";
+                    imgs.style.left=left+"px";
+                    theLeftSide.appendChild(imgs);
+                }
+                var theRightSide = document.getElementById("rightSide");
+                leftSideImages = theLeftSide.cloneNode(true);
+                leftSideImages.removeChild(leftSideImages.lastChild);
+                theRightSide.appendChild(leftSideImages);
+                
+                var theBody = document.getElementsByTagName("body")[0];
+                theLeftSide.lastChild.onclick=function nextLevel(event)
+                {
+                    event.stopPropagation();
+                    
+                    theNodeLeft = document.getElementById("leftSide");
+                    while(theNodeLeft.firstChild)
+                        theNodeLeft.removeChild(theNodeLeft.firstChild);
+                    theNodeRight = document.getElementById("rightSide");
+                    while(theNodeRight.firstChild)
+                        theNodeRight.removeChild(theNodeRight.firstChild);
+                    
+                    numberOfFaces+=5;
+                    generateFaces();
+                };
+                theBody.onclick = function gameOver() {
+
+                    alert("Game Over!");
+
+
+                    theBody.onclick = null;
+
+                    theLeftSide.lastChild.onclick = null;
+
+                }; 
+            }
+          
+            
+        </script>
+    </body>
+</html>
